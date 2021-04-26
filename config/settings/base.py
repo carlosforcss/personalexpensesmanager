@@ -18,8 +18,7 @@ THIRD_PARTIES = [
 ]
 
 PROJECT_APPS = [
-    "spa.users.app.UsersAppConfig",
-    "spa.management.app.ManagementAppConfig",
+    "pem.users.app.UsersAppConfig",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTIES + PROJECT_APPS
@@ -34,7 +33,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-APPS_DIR = BASE_DIR / "spa"
+APPS_DIR = BASE_DIR / "pem"
 ROOT_URLCONF = 'config.urls'
 AUTH_USER_MODEL = 'users.User'
 LOGIN_URL = "/login/"
