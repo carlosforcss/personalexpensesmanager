@@ -19,6 +19,7 @@ THIRD_PARTIES = [
 
 PROJECT_APPS = [
     "pem.users.app.UsersAppConfig",
+    "pem.balance.app.BalanceAppConfig",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTIES + PROJECT_APPS

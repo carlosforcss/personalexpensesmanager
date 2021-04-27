@@ -28,3 +28,11 @@ class User(CommonModel, AbstractUser):
 
     class Meta:
         db_table = "users"
+
+
+class UserBasedModel(CommonModel):
+
+    owner = models.ForeignKey("users.User", on_delete=models.CASCADE)
+
+    class Meta:
+        abstract = True
