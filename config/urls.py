@@ -9,6 +9,7 @@ from rest_framework import routers
 from rest_framework.authtoken import views as auth_views
 # Project
 from pem.users.urls import router as users_router
+from pem.balance.urls import router as balance_router
 
 
 router = routers.DefaultRouter()
@@ -18,5 +19,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/", include(router.urls)),
     path("api/users/", include(users_router.urls)),
+    path("api/balance/", include(balance_router.urls)),
     path("get_token/", auth_views.obtain_auth_token),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
