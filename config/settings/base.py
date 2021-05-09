@@ -35,6 +35,7 @@ MIDDLEWARE = [
 ]
 
 APPS_DIR = BASE_DIR / "pem"
+
 ROOT_URLCONF = 'config.urls'
 AUTH_USER_MODEL = 'users.User'
 LOGIN_URL = "/login/"

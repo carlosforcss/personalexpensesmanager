@@ -29,22 +29,32 @@ class Concept(UserBasedModel):
         (EGRESS, "Egress"),
     )
 
+    ANNUAL = 1
+    MONTHLY = 2
+    WEEKLY = 3
+    DAILY = 4
+
+    PERIODS = (
+        (ANNUAL, "Annual"),
+        (MONTHLY, "Monthly"),
+        (WEEKLY, "Weekly"),
+        (DAILY, "Daily"),
+    )
+
     category = models.ForeignKey(
         "balance.Category", on_delete=models.CASCADE,
         related_name="concepts"
     )
     is_periodical = models.BooleanField(default=False)
-    time_period = models.ForeignKey(
-        "balance.TimePeriod", on_delete=models.SET_NULL,
-        related_name="time_period",
-        null=True, blank=True,
-    )
     piority = models.SmallIntegerField(choices=PIORITIES, default=NORMAL)
     type = models.SmallIntegerField(choices=TYPES, default=EGRESS)
     default_amount = models.DecimalField(
         max_digits=11, decimal_places=2,
         null=True, blank=True,
     )
+
+    period = models.SmallIntegerField(choices=PERIODS, default=MONTHLY)
+    period_interval = models.SmallIntegerField()
 
     class Meta:
         db_table = "concepts"
