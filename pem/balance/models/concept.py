@@ -54,7 +54,7 @@ class Concept(UserBasedModel):
     )
 
     period = models.SmallIntegerField(choices=PERIODS, default=MONTHLY)
-    period_interval = models.SmallIntegerField()
+    period_interval = models.SmallIntegerField(default=1)
 
     class Meta:
         db_table = "concepts"
