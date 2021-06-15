@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 # Django
 from django.test import TestCase, Client
-# Third Parties
+# Third Parties & Python
 from faker import Faker
+from random import randrange
 # Project
 from pem.users.models import User
 
@@ -18,8 +19,8 @@ def _client_logged_required_decorator(func):
 class UserClient(Client):
 
     MULTIPART_CONTENT = "application/json"
-    user : User = None
-    _token : str  = None
+    user: User = None
+    _token: str = None
 
     def __init__(self, user, password):
         super(UserClient, self).__init__()
@@ -70,3 +71,7 @@ class BaseTestCase(TestCase):
         user, password = self.create_user()
         client = UserClient(user, password)
         return client
+
+    def get_random_choice(self, choices):
+        random_number = randrange(0, len(choices) - 1)
+        return choices[random_number][0]

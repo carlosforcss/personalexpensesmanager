@@ -14,7 +14,7 @@ class Concept(UserBasedModel):
     NORMAL = 3
     LOW = 4
 
-    PIORITIES = (
+    PRIORITIES = (
         (CRITICAL, "Critical"),
         (HIGH, "High"),
         (NORMAL, "Normal"),
@@ -46,7 +46,7 @@ class Concept(UserBasedModel):
         related_name="concepts"
     )
     is_periodical = models.BooleanField(default=False)
-    piority = models.SmallIntegerField(choices=PIORITIES, default=NORMAL)
+    priority = models.SmallIntegerField(choices=PRIORITIES, default=NORMAL)
     type = models.SmallIntegerField(choices=TYPES, default=EGRESS)
     default_amount = models.DecimalField(
         max_digits=11, decimal_places=2,
