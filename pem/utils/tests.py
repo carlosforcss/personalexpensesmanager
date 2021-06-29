@@ -73,5 +73,5 @@ class BaseTestCase(TestCase):
         return client
 
     def get_random_choice(self, choices):
-        random_number = randrange(0, len(choices) - 1)
+        random_number = randrange(0, len(choices))
         return choices[random_number][0]

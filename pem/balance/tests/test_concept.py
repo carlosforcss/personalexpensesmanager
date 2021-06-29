@@ -6,6 +6,7 @@ from rest_framework.utils.serializer_helpers import ReturnDict, ReturnList
 # Project
 from pem.balance.models import Concept, Category
 from pem.utils.tests import BaseTestCase
+from decimal import Decimal
 
 
 class ConceptTestCase(BaseTestCase):
@@ -28,7 +29,7 @@ class ConceptTestCase(BaseTestCase):
                 "name": concept_name,
                 "category": new_category.id,
                 "is_periodical": False,
-                "piority": Concept.NORMAL,
+                "priority": Concept.NORMAL,
                 "type": Concept.INGRESS,
                 "default_amount": "{}".format(self.fake.random_number()),
             },
@@ -40,28 +41,28 @@ class ConceptTestCase(BaseTestCase):
         self.assertEqual(new_concept.owner.id, self.client.user.id)
 
         # Get a concept
-        get_response = self.client.get("{}{}".format(self.URL, new_concept.first()))
+        get_response = self.client.get("{}{}/".format(self.URL, new_concept.id))
         self.assertEqual(get_response.status_code, 200)
-        self.assertEqual(get_response.body, ReturnDict)
-        self.assertEqual(get_response.body.get("id"), new_concept.id)
+        self.assertEqual(type(get_response.data), ReturnDict)
+        self.assertEqual(get_response.data.get("id"), new_concept.id)
 
         # List concept
         list_response = self.client.get(self.URL)
         self.assertEqual(list_response.status_code, 200)
-        self.assertEqual(list_response.body, ReturnList)
-        self.assertEqual(len(list_response.body), 1)
-        self.assertEqual(list_response[0].get("id"), new_concept.id)
+        self.assertEqual(type(list_response.data), ReturnList)
+        self.assertEqual(len(list_response.data), 1)
+        self.assertEqual(list_response.data[0].get("id"), new_concept.id)
 
         # Update concept
-        new_default_amount = self.fake.random_number()
-        update_response = self.client.get(self.URL, dict(
+        new_default_amount = Decimal(self.fake.random_number()).quantize(Decimal("0.00"))
+        update_response = self.client.put("{}{}/".format(self.URL, new_concept.id), dict(
             default_amount=new_default_amount))
         self.assertEqual(update_response.status_code, 200)
-        self.assertEqual(update_response.body, ReturnDict)
-        self.assertEqual(update_response.get("id"), new_concept.id)
-        self.assertEqual(update_response.get("default_amount"), new_default_amount)
+        self.assertEqual(type(update_response.data), ReturnDict)
+        self.assertEqual(update_response.data.get("id"), new_concept.id)
+        self.assertEqual(update_response.data.get("default_amount"), "{}".format(new_default_amount))
 
         # Remove concept
-        delete_response = self.client.delete("{}{}".format(self.URL, new_default_amount))
-        self.assertEqual(delete_response.status_code, 200)
+        delete_response = self.client.delete("{}{}/".format(self.URL, new_concept.id))
+        self.assertEqual(delete_response.status_code, 204)
         self.assertFalse(Concept.objects.all().exists())

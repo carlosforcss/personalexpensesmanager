@@ -32,7 +32,7 @@ class ConceptSerializer(UserBasedSerializer):
             "id",
             "category",
             "is_periodical",
-            "piority",
+            "priority",
             "default_amount",
             "type",
         )

@@ -1,13 +1,22 @@
 # -*- coding: utf-8 -*-
 # Django
 # - - -
-# THird Parties
-from rest_framework.serializers import ModelSerializer
+# Third Parties
+# - - -
 # Project
-from pem.balance.models import Movement
+from pem.balance.models import Movement, Concept
+from pem.utils.serializers import UserBasedSerializer
+from pem.utils.serializers import CustomSlugRelatedField
 
 
-class MovementSerializer(ModelSerializer):
+class MovementSerializer(UserBasedSerializer):
+
+    concept = CustomSlugRelatedField(
+        queryset=Concept.objects.all(),
+        slug_field="id",
+        required=True,
+        allow_null=False,
+    )
 
     class Meta:
 

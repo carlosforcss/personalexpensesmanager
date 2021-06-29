@@ -11,6 +11,14 @@ from rest_framework.relations import RelatedField
 
 class UserBasedSerializer(ModelSerializer):
 
+    def get_fields(self, *args, **kwargs):
+        fields = super(UserBasedSerializer, self).get_fields(*args, **kwargs)
+        request = self.context.get('request', None)
+        if request and getattr(request, 'method', None) == "PUT":
+            for field_name in fields:
+                fields[field_name].required = False
+        return fields
+
     def create(self, validated_data):
         """
         We have a bit of extra checking around this in order to provide
@@ -150,7 +158,7 @@ class CustomSlugRelatedField(RelatedField):
                 data = int(float(data))
                 return self.get_queryset().get(pk=data)
             except Exception as e:
-                if type(data)._name_ == "int":
+                if type(data).__name__ == "int":
                     raise e
 
             try:
